@@ -18,7 +18,8 @@ def schedule(ttot, m):
             for n in range(0, total_states):
                 state_dict[(j, w, n)] = optvalfun(j, w, n, state_dict, total_states)
 
-    return(state_dict[(0,m-1,0)])
+    # return the maximum profit given that at time slot 0 some patient has been called and is being treated
+    return state_dict[(0, m-1, 0)]
 
 
 def optvalfun(j, m, n, state_dict, total_states):
@@ -26,11 +27,14 @@ def optvalfun(j, m, n, state_dict, total_states):
     # this method can be changed for the optimal value function we choose in the end
 
     # defining constants
-    R = 1000000
-    S = 20000
-    WC = 80
-    WH = 40
+
+    # EDIT CONSTANTS HERE
+    R = 1000
+    S = 2000
+    WC = 100
+    WH = 10
     p = 0.3
+    # EDIT CONSTANTS HERE
 
     # function value for j = 35 (time at 5:00)
     if j == 34:
@@ -68,6 +72,7 @@ def optvalfun(j, m, n, state_dict, total_states):
         else:
             fun = p*state_dict[(j+1, 0, m+1)] + (1-p)*state_dict[(j+1, 0, m)]
 
+    # function value for j below 32 (any time between 8:30 and 4:00 including 4:00)
     elif 0 <= j < 31:
 
         total_funvals = []
@@ -90,20 +95,35 @@ def optvalfun(j, m, n, state_dict, total_states):
             total_funvals.append(fun4)
 
         fun = max(total_funvals)
+
+    # if none of these options apply, we are somehow in an "illegal" time interval and make the function value
+    # -infinity. This else statement is not used during regular calculations (with 35 time intervals)
     else:
         fun = -math.inf
 
     return fun
 
 
+# finding the best number of patients ahead of time
 def findbestschedule(time_intervals):
+
+    # initializing best profit and best number of patients corresponding to this profit
     bestprofit = -math.inf
     best_number_of_patients = -math.inf
+
+    # we choose any number of patients between 1 and the number of time intervals we have
     for i in range(1, time_intervals):
+
+        # we calculate the max. expected profit with this number of patients...
         new_value = schedule(time_intervals, i)
+
+        # ...and check if it's the best overall profit
         if new_value > bestprofit:
             bestprofit = new_value
             best_number_of_patients = i
+
+    # return tuple: profit and number of patients corresponding to this profit
     return bestprofit, best_number_of_patients
+
 
 print(findbestschedule(35))
