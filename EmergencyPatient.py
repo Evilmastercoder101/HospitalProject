@@ -12,10 +12,13 @@ def checkbyday(listofdata):
 
     firstday = datalist[0][0]
     # first check if there are no days missing:
+
     # 0, 1, 2, 3, 6, 10, 11, 12, 13, 14, 15, 16, 17
-    # keep the above indices
+    # keep the indices below
+
     tokeep = [0, 1, 2, 3, 6]
     # date, time, borough, zip, loc
+
     fatalities = [10, 11, 12, 13, 14, 15, 16, 17]
     # injured, killed, injured, killed, injured, killed, injured, killed,
 
@@ -27,26 +30,24 @@ def checkbyday(listofdata):
     otherelemlist = []
     daysdict2 = {}
     for elem in datalist:
-        if elem[0] == firstday:
-
-            elemlist.append([elem[i] for i in tokeep])
+        tempdicto["data"] = None
+        tempdicto["fatalities"] = None
+        if elem[0] == today:
+            elemlist.append([[elem[i] for i in tokeep]])
             elemlist.append([elem[j] for j in fatalities])
-            othertempdicto["data"] = [elem[i] for i in tokeep]
-            tempdicto["fatalities"] = [elem[j] for j in fatalities]
+            daysdict[elem[0]] = elemlist
+        elif elem[0] == tomorrow:
+            # TODO
 
-            otherelemlist.append(othertempdicto)
-            otherelemlist.append(tempdicto)
 
-        daysdict[elem[0]] = elemlist
-        daysdict2[elem[0]]= otherelemlist
-    print(daysdict2)
     #for entry in datalist:
 
 
     print("###########")
-    print(daysdict)
-
-
+    for key in daysdict:
+        print(key)
+    print(daysdict["04/03/2018"])
+    print(daysdict["04/20/2018"])
 
 
 
