@@ -6,30 +6,30 @@ def schedule(ttot, m):
 
     # we use a dictionary for our results since we want results for tuples
     state_dict = {}
+    decision_dict = {}
 
+    total_states = m+ttot
     # calculating values for each element of the matrix
     # j current time
     for j in range(ttot, -1, -1):
-        print(j)
         # m current patients at home
         for w in range(0, m):
-            print(j, w)
             # n current patients in clinic
-            for n in range(0, m+ttot):
-                print(j, w, n)
-                state_dict[(j, w, n)] = optvalfun(j, w, n, state_dict)
-    return state_dict
+            for n in range(0, total_states):
+                state_dict[(j, w, n)] = optvalfun(j, w, n, state_dict, total_states)
+
+    return(state_dict[(0,m-1,0)])
 
 
-def optvalfun(j, m, n, state_dict):
+def optvalfun(j, m, n, state_dict, total_states):
     # fun is the function value of the optimal value function
     # this method can be changed for the optimal value function we choose in the end
 
     # defining constants
-    R = 3
-    S = 4
-    WC = 10
-    WH = 5
+    R = 1000000
+    S = 20000
+    WC = 80
+    WH = 40
     p = 0.3
 
     # function value for j = 35 (time at 5:00)
@@ -61,7 +61,10 @@ def optvalfun(j, m, n, state_dict):
     # function value for j = 32 (time at 4:15)
     elif j == 31:
         if n != 0:
-            fun = R - (n-1)*WC + p*state_dict[(j+1, 0, m+n)] + (1-p)*state_dict[(j+1, 0, m+n-1)]
+            if m+n < total_states:
+                fun = R - (n-1)*WC + p*state_dict[(j+1, 0, m+n)] + (1-p)*state_dict[(j+1, 0, m+n-1)]
+            else:
+                fun = -math.inf
         else:
             fun = p*state_dict[(j+1, 0, m+1)] + (1-p)*state_dict[(j+1, 0, m)]
 
@@ -71,7 +74,10 @@ def optvalfun(j, m, n, state_dict):
 
         # since there are multiple possibilities, a maximum is calculated
         if m >= 1 and n >= 1:  # calling
-            fun1 = R - (n-1)*WC - (m-1)*WH + p*state_dict[(j+1, m-1, n+1)] + (1-p)*state_dict[(j+1, m-1, n)]
+            if n+1 < total_states:
+                fun1 = R - (n-1)*WC - (m-1)*WH + p*state_dict[(j+1, m-1, n+1)] + (1-p)*state_dict[(j+1, m-1, n)]
+            else:
+                fun1 = -math.inf
             total_funvals.append(fun1)
         if m >= 0 and n >= 1:  # not calling
             fun2 = R - (n-1)*WC - m*WH + p*state_dict[(j+1, m, n)] + (1-p)*state_dict[(j+1, m, n-1)]
@@ -89,4 +95,15 @@ def optvalfun(j, m, n, state_dict):
 
     return fun
 
-print(schedule(35,3)[(0,1,1)])
+
+def findbestschedule(time_intervals):
+    bestprofit = -math.inf
+    best_number_of_patients = -math.inf
+    for i in range(1, time_intervals):
+        new_value = schedule(time_intervals, i)
+        if new_value > bestprofit:
+            bestprofit = new_value
+            best_number_of_patients = i
+    return bestprofit, best_number_of_patients
+
+print(findbestschedule(35))
