@@ -3,14 +3,43 @@
 
 
 import csv
+from datetime import *
 from copy import deepcopy
 allrows = []
+
+
+
 
 def checkbyday(listofdata):
     # listofdata is the original copy, datalist is the deep copy
     datalist = deepcopy(listofdata)
 
-    firstday = datalist[0][0]
+    # get the first date in the list
+    today = datalist[0][0]
+
+    currentday = int(''.join([today[i] for i in range(0, 2)]))
+    currentmonth = int(''.join([today[i] for i in range(3, 5)]))
+    currentyear = int(''.join([today[i] for i in range(6, len(today))]))
+
+    print(currentday)
+    print(currentmonth)
+    print(currentyear)
+
+    # make tomorrow:
+    timer = timedelta(days = 1)
+    todaydate = date(currentyear,currentmonth,currentday)
+    tomorrow = todaydate + timer
+    tomorrowtuple = tomorrow.timetuple()
+
+    print("TOMORROWTUPLE##############")
+    print(tomorrowtuple[0])
+    print(tomorrowtuple[1])
+    print(tomorrowtuple[2])
+
+
+
+
+
     # first check if there are no days missing:
 
     # 0, 1, 2, 3, 6, 10, 11, 12, 13, 14, 15, 16, 17
@@ -37,17 +66,11 @@ def checkbyday(listofdata):
             elemlist.append([elem[j] for j in fatalities])
             daysdict[elem[0]] = elemlist
         elif elem[0] == tomorrow:
-            # TODO
-
-
-    #for entry in datalist:
-
-
-    print("###########")
+            print("hey")
     for key in daysdict:
         print(key)
+        print("key")
     print(daysdict["04/03/2018"])
-    print(daysdict["04/20/2018"])
 
 
 
