@@ -81,15 +81,13 @@ def checkbyday(listofdata):
             elemlist.append([[elem[i] for i in tokeep]])
             elemlist.append([elem[j] for j in fatalities])
             daysdict[todaydate] = elemlist
-            print(todaydate)
-            print(elemlist)
+
 
         else:
             print("something is wrong!")
             break
         yesterdaydate = deepcopy(todaydate)
-    print(daysdict[todaydate])
-    print(daysdict[yesterdaydate - timer])
+    return daysdict
 
 
 
@@ -113,6 +111,9 @@ hospitalxy = (x,y)
 
 
 # date, time, borough, zip, lat, long, latlongloc, onstreet, cross street, offstreet, injured, killed, injured, killed, injured, killed, injured, killed, factor, factor, factor
-print(checkbyday(allrows))
+finaldaysdict = checkbyday(allrows)
+for key in finaldaysdict:
+    print(key, finaldaysdict[key])
+
 
 # 0, 1, 2, 3, 6, 10, 11, 12, 13, 14, 15, 16, 17
