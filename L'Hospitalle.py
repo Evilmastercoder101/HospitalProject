@@ -16,10 +16,10 @@ def schedule(ttot, m):
         for w in range(0, m):
             # n current patients in clinic
             for n in range(0, total_states):
-                state_dict[(j, w, n)] = optvalfun(j, w, n, state_dict, total_states)
+                state_dict[(j, w, n)], decision_dict[(j, w, n)] = optvalfun(j, w, n, state_dict, total_states)
 
     # return the maximum profit given that at time slot 0 some patient has been called and is being treated
-    return state_dict[(0, m-1, 0)]
+    return state_dict[(1, m-1, 1)], decision_dict
 
 
 def optvalfun(j, m, n, state_dict, total_states):
@@ -35,6 +35,9 @@ def optvalfun(j, m, n, state_dict, total_states):
     WH = 10
     p = 0.3
     # EDIT CONSTANTS HERE
+
+    # check whether we are calling a patient or not
+    calling = 0
 
     # function value for j = 35 (time at 5:00)
     if j == 34:
@@ -84,15 +87,19 @@ def optvalfun(j, m, n, state_dict, total_states):
             else:
                 fun1 = -math.inf
             total_funvals.append(fun1)
+            calling = 1
         if m >= 0 and n >= 1:  # not calling
             fun2 = R - (n-1)*WC - m*WH + p*state_dict[(j+1, m, n)] + (1-p)*state_dict[(j+1, m, n-1)]
             total_funvals.append(fun2)
+            calling = 0
         if m >= 1 and n == 0:  # calling
             fun3 = -(m-1)*WH + p*state_dict[(j+1, m-1, 2)] + (1-p)*state_dict[(j+1, m-1, 1)]
             total_funvals.append(fun3)
+            calling = 1
         if m >= 0 and n == 0:  # not calling
             fun4 = -m*WH + p*state_dict[(j+1, m, 1)] + (1-p)*state_dict[(j+1, m, 0)]
             total_funvals.append(fun4)
+            calling = 0
 
         fun = max(total_funvals)
 
@@ -101,7 +108,7 @@ def optvalfun(j, m, n, state_dict, total_states):
     else:
         fun = -math.inf
 
-    return fun
+    return fun, calling
 
 
 # finding the best number of patients ahead of time
@@ -111,19 +118,39 @@ def findbestschedule(time_intervals):
     bestprofit = -math.inf
     best_number_of_patients = -math.inf
 
+    best_decisions = {}
+
     # we choose any number of patients between 1 and the number of time intervals we have
     for i in range(1, time_intervals):
 
         # we calculate the max. expected profit with this number of patients...
-        new_value = schedule(time_intervals, i)
+        new_schedule = schedule(time_intervals, i)
+        new_value = new_schedule[0]
+        new_decisions = new_schedule[1]
 
         # ...and check if it's the best overall profit
         if new_value > bestprofit:
             bestprofit = new_value
             best_number_of_patients = i
+            best_decisions = new_decisions
 
     # return tuple: profit and number of patients corresponding to this profit
-    return bestprofit, best_number_of_patients
+    return bestprofit, best_number_of_patients, best_decisions
 
 
-print(findbestschedule(35))
+solution = findbestschedule(35)
+
+call_vec = []
+for i in solution[2]:
+    print(i)
+    if solution[2][i] == 1:
+        call_vec.append(i)
+
+print("-- OPTIMAL PROFIT --")
+print(solution[0])
+print("-- OPTIMAL NUMBER OF PATIENTS")
+print(solution[1])
+print("-- SITUATIONS WHERE WE CALL A PATIENT --")
+print("(t,m,n) representing time interval, number of people at home and number of people in the hospital")
+print(call_vec)
+
