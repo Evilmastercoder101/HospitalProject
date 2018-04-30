@@ -11,10 +11,10 @@ def schedule(ttot, m):
     state_dict = {}
     decision_dict = {}
 
-    total_states = m+ttot
-    # calculating values for each element of the matrix
+    total_states = m+ttot  # max number of people in clinic
+    # calculating values for each element of the dictionary
     # j current time
-    for j in range(ttot, -1, -1):
+    for j in range(ttot, 0, -1):
         # m current patients at home
         for w in range(0, m):
             # n current patients in clinic
@@ -34,8 +34,8 @@ def optvalfun(j, m, n, state_dict, total_states):
 
     # EDIT CONSTANTS HERE
     R = 1000
-    S = 2000
-    WC = 100
+    S = 1200
+    WC = 1000
     WH = 10
     p = 0.3
     # EDIT CONSTANTS HERE
