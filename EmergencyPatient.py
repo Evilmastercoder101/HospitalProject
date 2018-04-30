@@ -7,7 +7,20 @@ from datetime import *
 from copy import deepcopy
 allrows = []
 
+def samedate(date, datetuple):
+    currentmonth = int(''.join([date[i] for i in range(0, 2)]))
+    currentday = int(''.join([date[i] for i in range(3, 5)]))
+    currentyear = int(''.join([date[i] for i in range(6, len(date))]))
 
+    tupleday = datetuple[2]
+    tuplemonth = datetuple[1]
+    tupleyear = datetuple[0]
+
+
+    if tupleday == currentday and tuplemonth == currentmonth and tupleyear == currentyear:
+        return True
+    else:
+        return False
 
 
 def checkbyday(listofdata):
@@ -15,26 +28,7 @@ def checkbyday(listofdata):
     datalist = deepcopy(listofdata)
 
     # get the first date in the list
-    today = datalist[0][0]
 
-    currentday = int(''.join([today[i] for i in range(0, 2)]))
-    currentmonth = int(''.join([today[i] for i in range(3, 5)]))
-    currentyear = int(''.join([today[i] for i in range(6, len(today))]))
-
-    print(currentday)
-    print(currentmonth)
-    print(currentyear)
-
-    # make tomorrow:
-    timer = timedelta(days = 1)
-    todaydate = date(currentyear,currentmonth,currentday)
-    tomorrow = todaydate + timer
-    tomorrowtuple = tomorrow.timetuple()
-
-    print("TOMORROWTUPLE##############")
-    print(tomorrowtuple[0])
-    print(tomorrowtuple[1])
-    print(tomorrowtuple[2])
 
 
 
@@ -58,19 +52,44 @@ def checkbyday(listofdata):
     othertempdicto = {}
     otherelemlist = []
     daysdict2 = {}
+    yesterdaydate = date(2011, 12, 11)
+    # slaat nergens op xD
     for elem in datalist:
-        tempdicto["data"] = None
-        tempdicto["fatalities"] = None
-        if elem[0] == today:
+
+        today = elem[0]
+
+        currentmonth = int(''.join([today[i] for i in range(0, 2)]))
+        currentday = int(''.join([today[i] for i in range(3, 5)]))
+        currentyear = int(''.join([today[i] for i in range(6, len(today))]))
+
+        # make tomorrow:
+        timer = timedelta(days=1)
+        todaydate = date(currentyear, currentmonth, currentday)
+        tomorrow = todaydate + timer
+
+        # empty the elemlist var when going to the next day
+        print(elem[0], todaydate)
+        if not samedate(elem[0], yesterdaydate.timetuple()):
+            elemlist = []
+
+
+
+
+        if samedate(elem[0], todaydate.timetuple()):
+            print("today is: ")
+            print(today)
             elemlist.append([[elem[i] for i in tokeep]])
             elemlist.append([elem[j] for j in fatalities])
-            daysdict[elem[0]] = elemlist
-        elif elem[0] == tomorrow:
-            print("hey")
-    for key in daysdict:
-        print(key)
-        print("key")
-    print(daysdict["04/03/2018"])
+            daysdict[todaydate] = elemlist
+            print(todaydate)
+            print(elemlist)
+
+        else:
+            print("something is wrong!")
+            break
+        yesterdaydate = deepcopy(todaydate)
+    print(daysdict[todaydate])
+    print(daysdict[yesterdaydate - timer])
 
 
 
@@ -91,9 +110,8 @@ y = 0
 
 
 hospitalxy = (x,y)
-for row in allrows:
-    print(row)
-    print("\n")
+
+
 # date, time, borough, zip, lat, long, latlongloc, onstreet, cross street, offstreet, injured, killed, injured, killed, injured, killed, injured, killed, factor, factor, factor
 print(checkbyday(allrows))
 
