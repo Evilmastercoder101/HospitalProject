@@ -11,6 +11,8 @@ def schedule(ttot, m, scheduling):
     state_dict = {}
     decision_dict = {}
 
+    reachablestates = findreachable(1, m-1, 1)
+
     total_states = m+ttot  # max number of people in clinic
     # calculating values for each element of the dictionary
     # j current time
@@ -22,7 +24,7 @@ def schedule(ttot, m, scheduling):
                 if scheduling:
                     state_dict[(j, w, n)], decision_dict[(j, w, n)] = optvalfunsched(j, w, n, state_dict, total_states)
                 else:
-                    state_dict[(j, w, n)] = optvalfunwalkin(j, w, n, state_dict, total_states)
+                    state_dict[(j, w, n)] = optvalfunwalkin(j, w, n, state_dict, total_states, reachablestates)
 
     # return the maximum profit given that at time slot 0 some patient has been called and is being treated
     if scheduling:
@@ -120,18 +122,20 @@ def optvalfunsched(j, m, n, state_dict, total_states):
 
 
 # finding the best number of patients ahead of time for a walk-in clinic
-def optvalfunwalkin(j, m, n, state_dict, total_states):
+def optvalfunwalkin(j, m, n, state_dict, total_states, reach):
     # fun is the function value of the optimal value function
     # this method can be changed for the optimal value function we choose in the end
-
     # defining constants
 
     # EDIT CONSTANTS HERE
     R = 1000
     S = 1200
-    WC = 10000
-    p = 0.3
+    WC = 100
+    if j < 33:
+        p = 1/(33-j)
     # EDIT CONSTANTS HERE
+
+    fun = 0
 
     # function value for j = 35 (time at 5:00)
     if j == 34:
@@ -148,14 +152,20 @@ def optvalfunwalkin(j, m, n, state_dict, total_states):
     # function value for j = 34 (time at 4:45)
     elif j == 33:
         if n != 0:
-            fun = R - (n-1)*WC + state_dict[(j+1, 0, n-1)]
+            if (j+1, 0, n-1) in reach:
+                fun = R - (n-1)*WC + state_dict[(j+1, 0, n-1)]
+            else:
+                fun = 0
         else:
             fun = 0
 
     # function value for j = 33 (time at 4:30)
     elif j == 32:
         if n != 0:
-            fun = R - (n-1)*WC + state_dict[(j+1, 0, n-1)]
+            if (j+1, 0, n-1) in reach:
+                fun = R - (n-1)*WC + state_dict[(j+1, 0, n-1)]
+            else:
+                fun = 0
         else:
             fun = 0
 
@@ -163,24 +173,24 @@ def optvalfunwalkin(j, m, n, state_dict, total_states):
     elif j == 31:
         if n != 0:
             if m+n < total_states:
-                fun = R - (n-1)*WC + p*state_dict[(j+1,0,m+n)] + (1-p)*state_dict[(j+1, 0, m+n-1)]
-            else:
-                fun = 0
+                fun = R - (n-1)*WC + p*state_dict[(j+1, 0, m+n)] + (1-p)*state_dict[(j+1, 0, m+n-1)]
         else:
             fun = p*state_dict[(j+1, 0, m+1)] + (1-p)*state_dict[(j+1, 0, m)]
 
     # function value for j below 32 (any time between 8:30 and 4:00 including 4:00)
     elif 0 <= j < 31:
+
         p_tot1 = 0
         p_tot2 = 0
         for k in range(0, m+1):
-
-            if n+k < total_states and n-k >= 0:
-                p_z_is_k1 = math.factorial(m)/(math.factorial(k)*math.factorial(n-k))*(p**k)*((1-p)**(m-k))*state_dict[(j+1, m-k, n+k)]
+            if n+k < total_states and n-k > 0 and k > 0:
+                mchoosek = (math.factorial(m))/(math.factorial(k)*math.factorial(m-k))
+                p_z_is_k1 = mchoosek*(p**k)*((1-p)**(m-k))*state_dict[(j+1, m-k, n+k)]
                 p_tot1 = p_tot1 + p_z_is_k1
 
-            if 0 <= n+k-1 < total_states and n-k >= 0:
-                p_z_is_k2 = math.factorial(m)/(math.factorial(k)*math.factorial(n-k))*(p**k)*((1-p)**(m-k))*state_dict[(j+1, m-k, n+k-1)]
+            if 0 <= n+k-1 < total_states and n-k > 0 and k > 0:
+                mchoosek = (math.factorial(m))/(math.factorial(k)*math.factorial(m-k))
+                p_z_is_k2 = mchoosek*(p**k)*((1-p)**(m-k))*state_dict[(j+1, m-k, n+k-1)]
                 p_tot2 = p_tot2 + p_z_is_k2
 
         fun = R - (n-1)*WC + p*p_tot1 + (1-p)*p_tot2
@@ -205,6 +215,8 @@ def findbestschedule(time_intervals, type):
     # we choose any number of patients between 1 and the number of time intervals we have
     for i in range(1, time_intervals):
 
+        print(i)
+
         # we calculate the max. expected profit with this number of patients...
         new_schedule = schedule(time_intervals, i, type)
         new_value = new_schedule[0]
@@ -226,6 +238,7 @@ def findbestschedule(time_intervals, type):
     # return tuple: profit and number of patients corresponding to this profit
     return bestprofit, best_number_of_patients, best_decisions, best_statedict
 
+
 # find the reachable states from a single state
 def findreachable(j, m, n):
     # initiate queue
@@ -238,7 +251,7 @@ def findreachable(j, m, n):
         current = queue[0]
 
         # if we are considering time intervals above t = 31, we stop (since there are no decisions then)
-        if current[0] == 31:
+        if current[0] == 34:
             stop = True
             continue
 
@@ -285,7 +298,7 @@ def findreachable(j, m, n):
     return reachable
 
 
-scheduled = True
+scheduled = False
 
 # calculate the solution of our model
 solution = findbestschedule(35, scheduled)
@@ -294,8 +307,8 @@ solution = findbestschedule(35, scheduled)
 if scheduled:
     call_vec = []
     nocall_vec = []
-    reachablestates = findreachable(1, solution[1]-1, 1)
-    for i in reachablestates:
+    reachablestates2 = findreachable(1, solution[1]-1, 1)
+    for i in reachablestates2:
         if solution[2][i] != 0:
             if solution[3][i] > 0:
                 call_vec.append(i)
@@ -306,7 +319,7 @@ if scheduled:
 # print our results
 print("-- OPTIMAL PROFIT --")
 print(solution[0])
-print("-- OPTIMAL NUMBER OF PATIENTS")
+print("-- OPTIMAL NUMBER OF PATIENTS --")
 print(solution[1])
 if scheduled:
     print("-- SITUATIONS WHERE WE CALL A PATIENT --")

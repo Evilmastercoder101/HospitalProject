@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1d3da710-b6af-497d-8d1f-6a988a179863" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/L'Hospitalle.py" afterPath="$PROJECT_DIR$/L'Hospitalle.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,13 +17,11 @@
       <file leaf-file-name="L'Hospitalle.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/L'Hospitalle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="245" column="69" lean-forward="false" selection-start-line="245" selection-start-column="69" selection-end-line="245" selection-end-column="69" />
+            <state relative-caret-position="528">
+              <caret line="192" column="88" lean-forward="true" selection-start-line="192" selection-start-column="88" selection-end-line="192" selection-end-column="88" />
               <folding>
-                <element signature="e#195#1263#0" expanded="false" />
-                <element signature="e#1399#4131#0" expanded="false" />
-                <element signature="e#4267#6483#0" expanded="false" />
-                <element signature="e#6608#7711#0" expanded="false" />
+                <element signature="e#1464#4196#0" expanded="false" />
+                <element signature="e#8142#10664#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -47,6 +46,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>j</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -59,6 +63,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/EmergencyPatient.py" />
+        <option value="$PROJECT_DIR$/rompslomp.py" />
         <option value="$PROJECT_DIR$/L'Hospitalle.py" />
       </list>
     </option>
@@ -85,6 +90,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -96,7 +102,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -152,14 +157,34 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <list size="2">
+    <configuration name="rompslomp" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="lHospital" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/rompslomp.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.EmergencyPatient" />
       <item index="1" class="java.lang.String" itemvalue="Python.L'Hospitalle" />
+      <item index="2" class="java.lang.String" itemvalue="Python.rompslomp" />
     </list>
     <recent_temporary>
-      <list size="2">
+      <list size="3">
         <item index="0" class="java.lang.String" itemvalue="Python.L'Hospitalle" />
-        <item index="1" class="java.lang.String" itemvalue="Python.EmergencyPatient" />
+        <item index="1" class="java.lang.String" itemvalue="Python.rompslomp" />
+        <item index="2" class="java.lang.String" itemvalue="Python.EmergencyPatient" />
       </list>
     </recent_temporary>
   </component>
@@ -226,7 +251,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525170776412</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="perhaps this changes something">
+      <created>1525338088874</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1525338088874</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -239,19 +271,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17334037" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298077" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3278846" sideWeight="0.5021075" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1923077" sideWeight="0.49789253" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298077" sideWeight="0.49789253" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298077" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32717392" sideWeight="0.49789253" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22115384" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -298,10 +330,13 @@
     <MESSAGE value="fixed problem with finding decision dictionary but still gives weird values" />
     <MESSAGE value="small adjustments" />
     <MESSAGE value="adding (broken) walk-in and reachable states" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding (broken) walk-in and reachable states" />
+    <MESSAGE value="perhaps this changes something" />
+    <option name="LAST_COMMIT_MESSAGE" value="perhaps this changes something" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -310,10 +345,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#195#1263#0" expanded="false" />
-            <element signature="e#1399#4131#0" expanded="false" />
-            <element signature="e#4267#6483#0" expanded="false" />
-            <element signature="e#6608#7711#0" expanded="false" />
+            <element signature="e#1464#4196#0" expanded="false" />
+            <element signature="e#8142#10664#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -331,10 +364,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#195#1263#0" expanded="false" />
-            <element signature="e#1399#4131#0" expanded="false" />
-            <element signature="e#4267#6483#0" expanded="false" />
-            <element signature="e#6608#7711#0" expanded="false" />
+            <element signature="e#1464#4196#0" expanded="false" />
+            <element signature="e#8142#10664#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -352,10 +383,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#195#1263#0" expanded="false" />
-            <element signature="e#1399#4131#0" expanded="false" />
-            <element signature="e#4267#6483#0" expanded="false" />
-            <element signature="e#6608#7711#0" expanded="false" />
+            <element signature="e#1464#4196#0" expanded="false" />
+            <element signature="e#8142#10664#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -373,10 +402,27 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#195#1263#0" expanded="false" />
-            <element signature="e#1399#4131#0" expanded="false" />
-            <element signature="e#4267#6483#0" expanded="false" />
-            <element signature="e#6608#7711#0" expanded="false" />
+            <element signature="e#1464#4196#0" expanded="false" />
+            <element signature="e#8142#10664#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EmergencyPatient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/L'Hospitalle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#1464#4196#0" expanded="false" />
+            <element signature="e#8142#10664#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -394,10 +440,8 @@
         <state relative-caret-position="352">
           <caret line="16" column="29" lean-forward="false" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
           <folding>
-            <element signature="e#195#1263#0" expanded="false" />
-            <element signature="e#1399#4131#0" expanded="false" />
-            <element signature="e#4267#6483#0" expanded="false" />
-            <element signature="e#6608#7711#0" expanded="false" />
+            <element signature="e#1464#4196#0" expanded="false" />
+            <element signature="e#8142#10664#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -425,15 +469,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/rompslomp.py" />
     <entry file="file://$PROJECT_DIR$/L'Hospitalle.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="245" column="69" lean-forward="false" selection-start-line="245" selection-start-column="69" selection-end-line="245" selection-end-column="69" />
+        <state relative-caret-position="528">
+          <caret line="192" column="88" lean-forward="true" selection-start-line="192" selection-start-column="88" selection-end-line="192" selection-end-column="88" />
           <folding>
-            <element signature="e#195#1263#0" expanded="false" />
-            <element signature="e#1399#4131#0" expanded="false" />
-            <element signature="e#4267#6483#0" expanded="false" />
-            <element signature="e#6608#7711#0" expanded="false" />
+            <element signature="e#1464#4196#0" expanded="false" />
+            <element signature="e#8142#10664#0" expanded="false" />
           </folding>
         </state>
       </provider>
