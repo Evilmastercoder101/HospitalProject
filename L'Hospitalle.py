@@ -298,7 +298,7 @@ def findreachable(j, m, n):
     return reachable
 
 
-scheduled = False
+scheduled = True
 
 # calculate the solution of our model
 solution = findbestschedule(35, scheduled)
