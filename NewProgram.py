@@ -1,11 +1,26 @@
 import math
 
 
+def find_no_patients(ttot):
+
+    best_profit = -math.inf
+
+    for i in range(1, ttot):
+        print(i)
+        new_profit = schedule(ttot, i)
+
+        if new_profit > best_profit:
+            best_profit = new_profit
+            best_no_patients = i
+
+    return best_profit, best_no_patients
+
+
 def schedule(ttot, m_init):
 
     # edit constants here
-    r = 100
-    s = 0
+    r = 1000
+    s = 1200
     wC = 100
     wH = 10
     p = 0.3
@@ -23,7 +38,8 @@ def schedule(ttot, m_init):
 
     return fun_dict[1, m_init-1, 1]
 
-def opt_val_fun_walk_in(t, m, n, dict, r, s, wC, wH, p, total_states):
+
+def opt_val_fun_walk_in(t, m, n, dicti, r, s, wC, wH, p, total_states):
 
     # 17:00
     if t == 35:
@@ -42,7 +58,7 @@ def opt_val_fun_walk_in(t, m, n, dict, r, s, wC, wH, p, total_states):
 
         if n > 0 and m == 0:
 
-            return r - (n-1)*wC + dict[(t+1, 0, n-1)]
+            return r - (n-1)*wC + dicti[(t+1, 0, n-1)]
 
         if n == 0:
 
@@ -53,7 +69,7 @@ def opt_val_fun_walk_in(t, m, n, dict, r, s, wC, wH, p, total_states):
 
         if n > 0 and m == 0:
 
-            return r - (n-1)*wC + dict[t+1, 0, n-1]
+            return r - (n-1)*wC + dicti[t+1, 0, n-1]
 
         if n == 0:
 
@@ -64,13 +80,13 @@ def opt_val_fun_walk_in(t, m, n, dict, r, s, wC, wH, p, total_states):
 
         if n > 0 and m+n < total_states:
 
-            return r - (n-1)*wC + p*dict[t+1, 0, m+n] + (1-p)*dict[t+1, 0, m+n-1]
+            return r - (n-1)*wC + p*dicti[t+1, 0, m+n] + (1-p)*dicti[t+1, 0, m+n-1]
 
         if n == 0:
 
-            return p*dict[t+1, 0, m+1] + (1-p)*dict[t+1, 0, m]
+            return p*dicti[t+1, 0, n+1] + (1-p)*dicti[t+1, 0, n]
 
-    if 1 <= t <= 31:
+    if 0 <= t <= 31:
 
         p_arrival = 1/(33-t)
 
@@ -82,24 +98,29 @@ def opt_val_fun_walk_in(t, m, n, dict, r, s, wC, wH, p, total_states):
             for k in range(0, m+1):
 
                 m_choose_k = math.factorial(m) / (math.factorial(k) * math.factorial(m - k))
-                p_k_arrivals = m_choose_k * (p_arrival ** k) * ((1 - p_arrival) ** m - k)
+                p_k_arrivals = m_choose_k * (p_arrival ** k) * ((1 - p_arrival) ** (m - k))
 
-                sum_emergency += p_k_arrivals * dict[(t+1, m-k, n+k)]
+                sum_emergency += p_k_arrivals * dicti[(t+1, m-k, n+k)]
 
-                if n+k-1 > 0:
+                if n > 0:
 
-                    sum_no_emergency += p_k_arrivals * dict[(t+1, m-k, n+k-1)]
+                    sum_no_emergency += p_k_arrivals * dicti[(t+1, m-k, n+k-1)]
 
                 else:
+                    if k > 0:
 
-                    sum_no_emergency += p_k_arrivals * dict[(t+1, m, 0)]
+                        sum_no_emergency += p_k_arrivals * dicti[(t+1, m-k, k-1)]
+
+                    else:
+
+                        sum_no_emergency += p_k_arrivals * dicti[(t + 1, m, 0)]
 
             if n == 0:
 
-                return r + p * sum_emergency + (1 - p) * sum_no_emergency
+                return p * sum_emergency + (1 - p) * sum_no_emergency
 
             else:
 
                 return r - (n - 1) * wC + p * sum_emergency + (1 - p) * sum_no_emergency
 
-print(schedule(35, 10))
+print(find_no_patients(35))
