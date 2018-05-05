@@ -41,13 +41,12 @@
       <file leaf-file-name="NewProgram.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NewProgram.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="166" column="71" lean-forward="false" selection-start-line="166" selection-start-column="71" selection-end-line="166" selection-end-column="71" />
+            <state relative-caret-position="63">
+              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding>
-                <element signature="e#189#700#0" expanded="false" />
-                <element signature="e#834#1383#0" expanded="false" />
-                <element signature="e#1565#5106#0" expanded="false" />
-                <element signature="e#5305#9766#0" expanded="false" />
+                <element signature="e#212#723#0" expanded="false" />
+                <element signature="e#2231#5772#0" expanded="false" />
+                <element signature="e#5971#10432#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -334,7 +333,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525536982875</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="walk-in clinic fixed, scheduled clinic added in NewProgram, complete program commented">
+      <created>1525540277983</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1525540277983</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -411,7 +417,8 @@
     <MESSAGE value="New branch for fixing walk-in clinic" />
     <MESSAGE value="Making separate file for walk-in clinic, making a broken version of walk-in clinic :(" />
     <MESSAGE value="walk-in clinic probably fixed (needs checking :D)" />
-    <option name="LAST_COMMIT_MESSAGE" value="walk-in clinic probably fixed (needs checking :D)" />
+    <MESSAGE value="walk-in clinic fixed, scheduled clinic added in NewProgram, complete program commented" />
+    <option name="LAST_COMMIT_MESSAGE" value="walk-in clinic fixed, scheduled clinic added in NewProgram, complete program commented" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -604,6 +611,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/graph_io.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-264">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/L'Hospitalle.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="805">
@@ -616,23 +631,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/graph_io.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-264">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/NewProgram.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="166" column="71" lean-forward="false" selection-start-line="166" selection-start-column="71" selection-end-line="166" selection-end-column="71" />
+        <state relative-caret-position="63">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding>
-            <element signature="e#189#700#0" expanded="false" />
-            <element signature="e#834#1383#0" expanded="false" />
-            <element signature="e#1565#5106#0" expanded="false" />
-            <element signature="e#5305#9766#0" expanded="false" />
+            <element signature="e#212#723#0" expanded="false" />
+            <element signature="e#2231#5772#0" expanded="false" />
+            <element signature="e#5971#10432#0" expanded="false" />
           </folding>
         </state>
       </provider>

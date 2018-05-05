@@ -1,6 +1,6 @@
 import math
 
-# EDIT CONSTANTS ON LAST LINES OF THE CODE
+# EDIT CONSTANTS ON LAST LINES OF THE CODE (313 lines in code :D)
 
 
 # calculates the best number of patients to schedule for a given day
@@ -36,20 +36,30 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p):
     (because Python...)
     """
 
+    # initiate dictionary of optimal expected values
     fun_dict = {}
 
+    # the total number of patients in the clinic will not exceed this number,
+    # as only 1 emergency patient can arrive in every time slot
     total_states = m_init+ttot
 
+    # we loop over all time slots backwards (from 35 to 1)
     for i in range(ttot, 0, -1):
 
+        # we loop over all possible values for the amount of patients sitting at home
         for j in range(0, m_init+1):
 
+            # we loop over all possible values for the amount of patients waiting at the clinic4
             for k in range(0, total_states):
+
+                # according to whether we can schedule patients,
+                # we call the appropriate optimal value function
                 if scheduling:
                     fun_dict[(i, j, k)] = opt_val_fun_scheduling(i, j, k, fun_dict, r, s, wC, wH, p, total_states)
                 else:
                     fun_dict[(i, j, k)] = opt_val_fun_walk_in(i, j, k, fun_dict, r, s, wC, wH, p, total_states)
 
+    # return the optimal expected revenue for the given amount of patients
     return fun_dict[1, m_init-1, 1]
 
 
