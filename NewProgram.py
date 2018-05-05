@@ -1,6 +1,6 @@
 import math
 
-# EDIT CONSTANTS ON LAST LINES OF THE CODE (313 lines in code :D)
+# EDIT CONSTANTS ON LAST LINES OF THE CODE
 
 
 # calculates the best number of patients to schedule for a given day
@@ -292,6 +292,7 @@ def opt_val_fun_walk_in(t, m, n, dicti, r, s, wC, wH, p, total_states):
             else:
 
                 return r - (n - 1) * wC + p * sum_emergency + (1 - p) * sum_no_emergency
+
 
 # constants and function calls are here
 
