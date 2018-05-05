@@ -17,14 +17,9 @@
       <file leaf-file-name="NewProgram.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NewProgram.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="42" lean-forward="false" selection-start-line="2" selection-start-column="42" selection-end-line="2" selection-end-column="42" />
-              <folding>
-                <element signature="e#189#700#0" expanded="false" />
-                <element signature="e#834#2026#0" expanded="false" />
-                <element signature="e#2208#5749#0" expanded="false" />
-                <element signature="e#5948#10409#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="1542">
+              <caret line="272" column="79" lean-forward="true" selection-start-line="272" selection-start-column="79" selection-end-line="272" selection-end-column="79" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -73,11 +68,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="719" />
-    <option name="y" value="2" />
-    <option name="width" value="974" />
-    <option name="height" value="1117" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1176" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -325,7 +320,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525540589682</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="not 313 anymore :(">
+      <created>1525544197844</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1525544197845</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView">
@@ -338,13 +340,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="719" y="2" width="974" height="1117" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0021367522" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0010537407" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298077" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3278846" sideWeight="0.5021075" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19107662" sideWeight="0.49789253" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19038461" sideWeight="0.49789253" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33268672" sideWeight="0.49789253" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -404,7 +406,8 @@
     <MESSAGE value="walk-in clinic probably fixed (needs checking :D)" />
     <MESSAGE value="walk-in clinic fixed, scheduled clinic added in NewProgram, complete program commented" />
     <MESSAGE value="commented one method and added very important note at the top" />
-    <option name="LAST_COMMIT_MESSAGE" value="commented one method and added very important note at the top" />
+    <MESSAGE value="not 313 anymore :(" />
+    <option name="LAST_COMMIT_MESSAGE" value="not 313 anymore :(" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -417,12 +420,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#189#700#0" expanded="false" />
-            <element signature="e#834#2026#0" expanded="false" />
-            <element signature="e#2208#5749#0" expanded="false" />
-            <element signature="e#5948#10409#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -630,14 +628,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/NewProgram.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="42" lean-forward="false" selection-start-line="2" selection-start-column="42" selection-end-line="2" selection-end-column="42" />
-          <folding>
-            <element signature="e#189#700#0" expanded="false" />
-            <element signature="e#834#2026#0" expanded="false" />
-            <element signature="e#2208#5749#0" expanded="false" />
-            <element signature="e#5948#10409#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="1542">
+          <caret line="272" column="79" lean-forward="true" selection-start-line="272" selection-start-column="79" selection-end-line="272" selection-end-column="79" />
+          <folding />
         </state>
       </provider>
     </entry>

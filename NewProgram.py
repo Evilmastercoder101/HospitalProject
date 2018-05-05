@@ -260,7 +260,10 @@ def opt_val_fun_walk_in(t, m, n, dicti, r, s, wC, wH, p, total_states):
                 p_k_arrivals = m_choose_k * (p_arrival ** k) * ((1 - p_arrival) ** (m - k))
 
                 # adding the weighted profit to our total expected profit
-                sum_emergency += p_k_arrivals * dicti[(t+1, m-k, n+k)]
+                if n > 0:
+                    sum_emergency += p_k_arrivals * dicti[(t+1, m-k, n+k)]
+                else:
+                    sum_emergency += p_k_arrivals * dicti[(t+1, m-k, k+1)]
 
                 # several clauses to make sure we do not call for a negative number of
                 # people in our clinic when asking for the expected value in this scenario
@@ -273,7 +276,7 @@ def opt_val_fun_walk_in(t, m, n, dicti, r, s, wC, wH, p, total_states):
                     if k > 0:
 
                         # adding the weighted profit to our total expected profit
-                        sum_no_emergency += p_k_arrivals * dicti[(t+1, m-k, k-1)]
+                        sum_no_emergency += p_k_arrivals * dicti[(t+1, m-k, k)]
 
                     else:
 
