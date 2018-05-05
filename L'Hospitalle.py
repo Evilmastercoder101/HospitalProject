@@ -12,6 +12,7 @@ def schedule(ttot, m, scheduling):
     decision_dict = {}
 
     reachablestates = findreachable(1, m-1, 1)
+    reachablestates_walkin = findreachable_walkin(1,m-1,1)
 
     total_states = m+ttot  # max number of people in clinic
     # calculating values for each element of the dictionary
@@ -24,7 +25,7 @@ def schedule(ttot, m, scheduling):
                 if scheduling:
                     state_dict[(j, w, n)], decision_dict[(j, w, n)] = optvalfunsched(j, w, n, state_dict, total_states)
                 else:
-                    state_dict[(j, w, n)] = optvalfunwalkin(j, w, n, state_dict, total_states, reachablestates)
+                    state_dict[(j, w, n)] = optvalfunwalkin(j, w, n, state_dict, total_states, reachablestates_walkin)
 
     # return the maximum profit given that at time slot 0 some patient has been called and is being treated
     if scheduling:
@@ -137,6 +138,9 @@ def optvalfunwalkin(j, m, n, state_dict, total_states, reach):
 
     fun = 0
 
+    if not(reach.__contains__((j, m, n))):
+        return 0
+
     # function value for j = 35 (time at 5:00)
     if j == 34:
         if m > 0:
@@ -182,17 +186,29 @@ def optvalfunwalkin(j, m, n, state_dict, total_states, reach):
 
         p_tot1 = 0
         p_tot2 = 0
+        totalp1 = 0
+        totalp2 = 0
         for k in range(0, m+1):
-            if n+k < total_states and n-k > 0 and k > 0:
-                mchoosek = (math.factorial(m))/(math.factorial(k)*math.factorial(m-k))
-                p_z_is_k1 = mchoosek*(p**k)*((1-p)**(m-k))*state_dict[(j+1, m-k, n+k)]
-                p_tot1 = p_tot1 + p_z_is_k1
+            mchoosek = (math.factorial(m)) / (math.factorial(k) * math.factorial(m - k))
 
-            if 0 <= n+k-1 < total_states and n-k > 0 and k > 0:
-                mchoosek = (math.factorial(m))/(math.factorial(k)*math.factorial(m-k))
+            testp = mchoosek * (p ** k) * ((1 - p) ** (m - k))
+            totalp1 += testp
+            p_z_is_k1 = mchoosek*(p**k)*((1-p)**(m-k))*state_dict[(j+1, m-k, n+k)]
+            p_tot1 = p_tot1 + p_z_is_k1
+
+            mchoosek = (math.factorial(m)) / (math.factorial(k) * math.factorial(m - k))
+
+            testp2 = mchoosek * (p ** k) * ((1 - p) ** (m - k))
+            totalp2 += testp2
+            if n+k-1 > 0:
                 p_z_is_k2 = mchoosek*(p**k)*((1-p)**(m-k))*state_dict[(j+1, m-k, n+k-1)]
                 p_tot2 = p_tot2 + p_z_is_k2
 
+        if not (0.98 < totalp1 < 1.02) or not (0.98 < totalp2 < 1.02):
+            print(totalp1)
+            print(totalp2)
+            print(j, m, n)
+            raise Exception("Probabilities don't sum to 1")
         fun = R - (n-1)*WC + p*p_tot1 + (1-p)*p_tot2
     # if none of these options apply, we are somehow in an "illegal" time interval and make the function value
     # -infinity. This else statement is not used during regular calculations (with 35 time intervals)
@@ -239,7 +255,7 @@ def findbestschedule(time_intervals, type):
     return bestprofit, best_number_of_patients, best_decisions, best_statedict
 
 
-# find the reachable states from a single state
+# find the reachable states from a single state for the scheduled clinic
 def findreachable(j, m, n):
     # initiate queue
     queue = [(j, m, n)]
@@ -294,6 +310,39 @@ def findreachable(j, m, n):
                 if not queue.__contains__((current[0]+1, current[1], 0)):
                     queue.append((current[0]+1, current[1], 0))
                     reachable.append((current[0] + 1, current[1], 0))
+
+    return reachable
+
+
+# find the reachable states from a single state for the walk-in clinic
+def findreachable_walkin(j,m,n):
+    # initiate queue
+    queue = [(j, m, n)]
+    reachable = [queue[0]]
+    stop = False
+
+    # main loop
+    while len(queue) != 0 and not stop:
+        current = queue[0]
+
+        # if we are considering time intervals above t = 31, we stop (since there are no decisions then)
+        if current[0] == 34:
+            stop = True
+            continue
+
+        queue.pop(0)
+        # add all reachable states from the one we consider right now
+        for k in range(0, m+1):
+
+            firstreach = (current[0]+1, current[1] - k, current[2] + k)
+            secondreach = (current[0]+1, current[1] - k, current[2] + k - 1)
+
+            if not (reachable.__contains__(firstreach)):
+                reachable.append(firstreach)
+                queue.append(firstreach)
+            if not (reachable.__contains__(secondreach)):
+                reachable.append(secondreach)
+                queue.append(secondreach)
 
     return reachable
 
