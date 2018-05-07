@@ -61,7 +61,7 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p, offline, calllist):
     # we loop over all time slots backwards (from 35 to 1)
     for i in range(ttot, 0, -1):
 
-        if offline and i <= 32 and calllist[i-1] == 1:
+        if offline and i <= 31 and calllist[i] == 1:
             neededm += 1
 
         # we loop over all possible values for the amount of patients sitting at home
@@ -353,10 +353,15 @@ def opt_val_fun_offline(t, m, n, dicti, r, s, wC, wH, p, total_states, calllist,
             else:
                 return 0
 
-    if t <= 32:
+    if t  == 32:
+
+        if m+n < total_states:
+            
+
+    if t <= 31:
         print(t, m, n)
         print(neededm)
-        if m + n < total_states and ((m == neededm-1 and calllist[t-1] == 1) or (m == neededm and calllist[t-1] == 0)):
+        if m + n < total_states and m == neededm:
             if n > 0:
                 print(r - (n-1)*wC + p*(dicti[(t+1, m-calllist[t-1], n+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], n-1+calllist[t-1])]))
                 return r - (n-1)*wC + p*(dicti[(t+1, m-calllist[t-1], n+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], n-1+calllist[t-1])])
