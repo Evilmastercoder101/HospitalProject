@@ -1,10 +1,11 @@
 import math
+import random
 
 # EDIT CONSTANTS ON LAST LINES OF THE CODE
 
 
 # calculates the best number of patients to schedule for a given day
-def find_no_patients(ttot, scheduling, r, s, wC, wH, p):
+def find_no_patients(ttot, scheduling, r, s, wC, wH, p, offline, calllist):
 
     """
     :return: tuple (a,b)
@@ -14,10 +15,20 @@ def find_no_patients(ttot, scheduling, r, s, wC, wH, p):
     best_profit = -math.inf
     best_no_patients = 0
 
+    if offline:
+
+        totalpatients = 0
+
+        for i in calllist:
+            if i == 1:
+                totalpatients += 1
+
+        return totalpatients, schedule(ttot, totalpatients, scheduling, r, s, wC, wH, p, offline, calllist)
+
     for i in range(1, ttot):
 
         # calculate optimal profit with i patients
-        new_profit = schedule(ttot, i, scheduling, r, s, wC, wH, p)
+        new_profit = schedule(ttot, i, scheduling, r, s, wC, wH, p, offline, calllist)
 
         # check whether new profit is the best and change
         # variables accordingly
@@ -29,7 +40,7 @@ def find_no_patients(ttot, scheduling, r, s, wC, wH, p):
 
 
 # calculates the optimal scheduling for a certain number of patients
-def schedule(ttot, m_init, scheduling, r, s, wC, wH, p):
+def schedule(ttot, m_init, scheduling, r, s, wC, wH, p, offline, calllist):
 
     """
     :return: float (or int)
@@ -41,10 +52,17 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p):
 
     # the total number of patients in the clinic will not exceed this number,
     # as only 1 emergency patient can arrive in every time slot
+
     total_states = m_init+ttot
+    if offline:
+        neededm = 0
+        print(calllist)
 
     # we loop over all time slots backwards (from 35 to 1)
     for i in range(ttot, 0, -1):
+
+        if offline and i <= 32 and calllist[i-1] == 1:
+            neededm += 1
 
         # we loop over all possible values for the amount of patients sitting at home
         for j in range(0, m_init+1):
@@ -56,11 +74,16 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p):
                 # we call the appropriate optimal value function
                 if scheduling:
                     fun_dict[(i, j, k)] = opt_val_fun_scheduling(i, j, k, fun_dict, r, s, wC, wH, p, total_states)
+                elif offline:
+                    fun_dict[(i, j, k)] = opt_val_fun_offline(i, j, k, fun_dict, r, s, wC, wH, p, total_states, calllist, neededm)
                 else:
                     fun_dict[(i, j, k)] = opt_val_fun_walk_in(i, j, k, fun_dict, r, s, wC, wH, p, total_states)
 
     # return the optimal expected revenue for the given amount of patients
-    return fun_dict[1, m_init-1, 1]
+    if offline:
+        return fun_dict[0, m_init, 0]
+    else:
+        return fun_dict[1, m_init-1, 1]
 
 
 # returns the value of the optimal value function
@@ -297,6 +320,50 @@ def opt_val_fun_walk_in(t, m, n, dicti, r, s, wC, wH, p, total_states):
                 return r - (n - 1) * wC + p * sum_emergency + (1 - p) * sum_no_emergency
 
 
+def opt_val_fun_offline(t, m, n, dicti, r, s, wC, wH, p, total_states, calllist, neededm):
+
+    if t == 35:
+
+        if m == 0:
+
+            # we sum the amount of waiting costs after 17:00
+            total_cost_overtime = 0
+
+            for i in range(0, n):
+                total_cost_overtime += i * wC
+
+            # we return the profit when there are n patients left at 17:00
+            return (r - s) * n - total_cost_overtime
+
+    if t == 34:
+
+        if m == 0:
+
+            if n > 0:
+                return r - (n-1)*wC + dicti[(t+1, 0, n-1)]
+            else:
+                return 0
+
+    if t == 33:
+
+        if m == 0:
+
+            if n > 0:
+                return r - (n-1)*wC + dicti[(t+1, 0, n-1)]
+            else:
+                return 0
+
+    if t <= 32:
+        print(t, m, n)
+        print(neededm)
+        if m + n < total_states and ((m == neededm-1 and calllist[t-1] == 1) or (m == neededm and calllist[t-1] == 0)):
+            if n > 0:
+                print(r - (n-1)*wC + p*(dicti[(t+1, m-calllist[t-1], n+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], n-1+calllist[t-1])]))
+                return r - (n-1)*wC + p*(dicti[(t+1, m-calllist[t-1], n+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], n-1+calllist[t-1])])
+            else:
+                print(p*(dicti[(t+1, m-calllist[t-1], 1+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], calllist[t-1])]))
+                return p*(dicti[(t+1, m-calllist[t-1], 1+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], calllist[t-1])])
+
 # constants and function calls are here
 
 # edit constants here
@@ -308,9 +375,26 @@ p = 0.3
 # edit constants here
 
 # structure of input: (no. time slots, scheduling(True/False), constants)
+# for example: print(find_no_patients(35, True, r, s, wC, wH, p, False, []))
+
 # we now call the function twice, once to find the optimal profit when we schedule our
 # patients by time slot, and once to find the optimal profit for a walk-in clinic.
 # We print the results and the optimal number of patients we should have that day (i.e. how
 # many patients we tell beforehand that they can come on that particular day)
-print(find_no_patients(35, True, r, s, wC, wH, p))
-print(find_no_patients(35, False, r, s, wC, wH, p))
+listerinator2000 = []
+for i in range(0, 32):
+    if i == 0:
+        listerinator2000.append(1)
+    else:
+        listerinator2000.append(random.randint(0, 1))
+    # if i%2 == 0:
+    #     listerinator2000.append(1)
+    # else:
+    #     listerinator2000.append(1)
+# listerinator2000[i] = 0
+
+# print(len(listerinator2000))
+#print(find_no_patients(35, True, r, s, wC, wH, p, False, []))
+#print(find_no_patients(35, False, r, s, wC, wH, p, False, []))
+print(find_no_patients(35, False, r, s, wC, wH, p, True, listerinator2000))
+
