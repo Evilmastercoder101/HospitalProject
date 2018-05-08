@@ -15,16 +15,22 @@ def find_no_patients(ttot, scheduling, r, s, wC, wH, p, offline, calllist):
     best_profit = -math.inf
     best_no_patients = 0
 
+    # if we have an offline scheduling we count the number of patients we have and return the exact profit
     if offline:
 
         totalpatients = 0
 
+        # summing amount of patients in schedule
         for i in calllist:
             if i == 1:
                 totalpatients += 1
 
+        # we only return the result for this specific schedule, as checking for multiple number of patients doesn't
+        # make sense logically (the number of patients in the schedule we have as input is fixed)
         return totalpatients, schedule(ttot, totalpatients, scheduling, r, s, wC, wH, p, offline, calllist)
 
+    # if we have either online scheduling or a walk-in clinic, we find the optimal number of patients to schedule and
+    # the corresponding profit
     for i in range(1, ttot):
 
         # calculate optimal profit with i patients
@@ -61,8 +67,14 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p, offline, calllist):
     # we loop over all time slots backwards (from 35 to 1)
     for i in range(ttot, 0, -1):
 
+        # if we calculate for offline scheduling, we need a certain number of people waiting at home
+        # at any given time. For example, if we want to have one patient in the clinic in some time slot,
+        # we want at least 1 patient at home in the previous time interval. We can calculate backwards to find the
+        # needed amount of patients at home for any time slot
         if offline and i <= 31 and calllist[i] == 1:
+            # if call_list[t+1]
             neededm += 1
+            print(neededm)
 
         # we loop over all possible values for the amount of patients sitting at home
         for j in range(0, m_init+1):
@@ -81,7 +93,7 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p, offline, calllist):
 
     # return the optimal expected revenue for the given amount of patients
     if offline:
-        return fun_dict[0, m_init, 0]
+        return fun_dict[1, m_init-1, 1]
     else:
         return fun_dict[1, m_init-1, 1]
 
@@ -322,6 +334,16 @@ def opt_val_fun_walk_in(t, m, n, dicti, r, s, wC, wH, p, total_states):
 
 def opt_val_fun_offline(t, m, n, dicti, r, s, wC, wH, p, total_states, calllist, neededm):
 
+    """
+    :return: float (or int)
+    (Because Python)
+    """
+
+    # time slots for calculations are mentioned above the corresponding if-statement
+    # for that calculation. Values are only calculated for m = 0 when t >= 31 since
+    # that is the only possible value for m in this scenario
+
+    # 17:00
     if t == 35:
 
         if m == 0:
@@ -335,10 +357,14 @@ def opt_val_fun_offline(t, m, n, dicti, r, s, wC, wH, p, total_states, calllist,
             # we return the profit when there are n patients left at 17:00
             return (r - s) * n - total_cost_overtime
 
+    # 16:45
     if t == 34:
 
         if m == 0:
 
+            # if n > 0 we return the expected profit in any following
+            # time interval plus the profit in this time interval. If n = 0
+            # we return 0 as no patients are present
             if n > 0:
                 return r - (n-1)*wC + dicti[(t+1, 0, n-1)]
             else:
@@ -348,26 +374,50 @@ def opt_val_fun_offline(t, m, n, dicti, r, s, wC, wH, p, total_states, calllist,
 
         if m == 0:
 
+            # if n > 0 we return the expected profit in any following
+            # time interval plus the profit in this time interval. If n = 0
+            # we return 0 as no patients are present
             if n > 0:
+
                 return r - (n-1)*wC + dicti[(t+1, 0, n-1)]
+
             else:
+
                 return 0
 
-    if t  == 32:
+    if t == 32:
 
-        if m+n < total_states:
-            
+        if m == 0:
+
+            # if n > 0 we return the expected profit in any following
+            # time interval plus the profit in this time interval. If n = 0 we
+            # only consider the possibility of a last emergency patient arriving.
+
+            if n > 0:
+
+                return r - (n-1)*wC + p*(dicti[(t+1, 0, n)]) + (1-p)*(dicti[(t+1, 0, n-1)])
+
+            else:
+
+                return p*(dicti[(t+1, 0, 1)]) + (1-p)*(dicti[(t+1, 0, 0)])
 
     if t <= 31:
-        print(t, m, n)
-        print(neededm)
-        if m + n < total_states and m == neededm:
+
+        # we only do calculations if the state is reachable. That is, if m+n > total_states, we cannot ever go to this
+        # state. Moreover, m needs to be equal to neededm since we have a predetermined schedule, and m != neededm would
+        # mean we are not keeping to this schedule.
+        if m == neededm and m+n < total_states:
+
             if n > 0:
-                print(r - (n-1)*wC + p*(dicti[(t+1, m-calllist[t-1], n+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], n-1+calllist[t-1])]))
-                return r - (n-1)*wC + p*(dicti[(t+1, m-calllist[t-1], n+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], n-1+calllist[t-1])])
+
+                # return expected profit for next time interval plus current profit
+                return r - (n-1)*wC + p*(dicti[(t+1, m - calllist[t], n + calllist[t])]) + (1-p)*(dicti[t+1, m - calllist[t], n -1 + calllist[t]])
+
             else:
-                print(p*(dicti[(t+1, m-calllist[t-1], 1+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], calllist[t-1])]))
-                return p*(dicti[(t+1, m-calllist[t-1], 1+calllist[t-1])]) + (1-p)*(dicti[(t+1, m-calllist[t-1], calllist[t-1])])
+
+                # return expected profit for next time interval
+                return p*(dicti[(t+1, m - calllist[t], 1 + calllist[t])]) + (1-p)*(dicti[t+1, m - calllist[t], calllist[t]])
+
 
 # constants and function calls are here
 
@@ -392,13 +442,7 @@ for i in range(0, 32):
         listerinator2000.append(1)
     else:
         listerinator2000.append(random.randint(0, 1))
-    # if i%2 == 0:
-    #     listerinator2000.append(1)
-    # else:
-    #     listerinator2000.append(1)
-# listerinator2000[i] = 0
 
-# print(len(listerinator2000))
 #print(find_no_patients(35, True, r, s, wC, wH, p, False, []))
 #print(find_no_patients(35, False, r, s, wC, wH, p, False, []))
 print(find_no_patients(35, False, r, s, wC, wH, p, True, listerinator2000))
