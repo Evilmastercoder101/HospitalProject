@@ -1,48 +1,105 @@
 import math
-import random
+import copy
+import pickle
 
 # EDIT CONSTANTS ON LAST LINES OF THE CODE
 
 
-# HEEELLLLPPPPPPP
+# method for making a (locally) optimal schedule
 def makeschedule(n, x, r, s, wC, wH, p):
 
+    # making the initial schedule
     schedulemade = [0]*n
 
+    # we initiate the schedule with the first time slot being 1
     schedulemade[0] = 1
     opt_schedule_current = []
 
-    print(schedulemade)
-    print(schedule(35, 1, False, r, s, wC, wH, p, True, schedulemade))
+    # we first add a 1 x-1 number of times, where x is the amount of 1's
+    # that we want to obtain
+    for k in range(1, x):
 
-    for k in range(1, x+1):
+        # we initialize the profit to be equal to minus infinity
+        bestprofit = -math.inf
 
-        bestprofit = 0
-
+        # we now check which 0 would be most profitable to change to a 1
+        # ie. we check in which time slot we would like to schedule a patient
+        # the most
         for i in range(1, len(schedulemade)):
 
+            # we change a 0 to a 1, if this is not possible we simply continue
             if schedulemade[i] == 0:
 
                 schedulemade[i] = 1
 
-            print(schedulemade)
+            else:
 
-            newprofit = schedule(35, k, False, r, s, wC, wH, p, True, schedulemade)
+                continue
 
-            print(newprofit)
+            # we find the profit corresponding to this change
+            newprofit = find_no_patients(35, False, r, s, wC, wH, p, True, schedulemade)
 
-            if newprofit != None and newprofit > bestprofit:
+            # if the obtained profit is higher than the highest profit we have seen before
+            if newprofit[1] > bestprofit:
 
-                bestprofit = newprofit
-                opt_schedule_current = schedulemade
+                # this is now the highest profit we have seen before
+                bestprofit = newprofit[1]
+                # we deepcopy the current schedule (to make sure this copy is kept intact)
+                opt_schedule_current = copy.deepcopy(schedulemade)
 
+            # we revert the original schedule to its previous state
             schedulemade[i] = 0
 
+        # we now make the new schedule with which we continue the schedule with which we
         schedulemade = opt_schedule_current
 
-    return schedulemade
+    # iterating over found optimum to found best policy
+    continuing = True
 
+    # as long as our result does not change we iterate
+    while continuing:
 
+        # we create a deepcopy to avoid issues with changing the schedule
+        current = copy.deepcopy(schedulemade)
+
+        # for every element of the schedule we check whether it's a 1
+        for i in range(1, len(schedulemade)):
+
+            if schedulemade[i] == 1:
+
+                # then for all other elements we check whether it's a 0
+                for j in range(0, len(schedulemade)):
+
+                    # we interchange the found 0 and 1
+                    if schedulemade[j] == 0:
+
+                        schedulemade[i] = 0
+                        schedulemade[j] = 1
+
+                        # we find the profit for the obtained new schedule
+                        newprofit = find_no_patients(35, False, r, s, wC, wH, p, True, schedulemade)
+
+                        # we check whether the new schedule is the best we have found so far
+                        if newprofit[1] > bestprofit:
+
+                            bestprofit = newprofit[1]
+                            opt_schedule_current = copy.deepcopy(schedulemade)
+
+                        # we revert the schedule to how it was originally
+                        schedulemade[i] = 1
+                        schedulemade[j] = 0
+
+                # we make the schedule the optimal found schedule from this iteration
+                schedulemade = opt_schedule_current
+
+        # if in a whole iteration (checking every combination) we have not found a single
+        # change that improves our profits, we stop the calculations
+        if current == schedulemade:
+
+            continuing = False
+
+    # we return the found schedule and profit
+    return schedulemade, find_no_patients(35, False, r, s, wC, wH, p, True, schedulemade)[1]
 
 
 # calculates the best number of patients to schedule for a given day
@@ -463,10 +520,10 @@ def opt_val_fun_offline(t, m, n, dicti, r, s, wC, wH, p, total_states, calllist,
 # constants and function calls are here
 
 # edit constants here
-r = 1000
-s = 1200
-wC = 500
-wH = 10
+r = 10
+s = 12
+wC = 5
+wH = 0.1
 p = 0.3
 # edit constants here
 
@@ -477,14 +534,13 @@ p = 0.3
 # patients by time slot, and once to find the optimal profit for a walk-in clinic.
 # We print the results and the optimal number of patients we should have that day (i.e. how
 # many patients we tell beforehand that they can come on that particular day)
-listerinator2000 = []
-for i in range(0, 32):
-    if i == 0:
-        listerinator2000.append(1)
-    else:
-        listerinator2000.append(0)
+tempresult = []
+for i in range(1, 33):
+    tempresult.append((i, makeschedule(32, i, r, s, wC, wH, p)))
 
-print(makeschedule(32, 5, r, s, wC, wH, p))
+open('resultsbonus.obj', 'w+').close()
+filehand = open('resultsbonus.obj', 'wb')
+pickle.dump(tempresult, filehand)
 
 #print(find_no_patients(35, True, r, s, wC, wH, p, False, []))
 #print(find_no_patients(35, False, r, s, wC, wH, p, False, []))
