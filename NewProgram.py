@@ -2,11 +2,15 @@ import math
 import copy
 import pickle
 
-# EDIT CONSTANTS ON LAST LINES OF THE CODE
+# EDIT CONSTANTS AND FUNCTION CALLS ON LAST LINES OF THE CODE (FROM 523 ONWARDS)
 
 
 # method for making a (locally) optimal schedule
 def makeschedule(n, x, r, s, wC, wH, p):
+
+    """
+    :return: tuple (a,b)
+    """
 
     # making the initial schedule
     schedulemade = [0]*n
@@ -190,14 +194,11 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p, offline, calllist):
                     fun_dict[(i, j, k)] = opt_val_fun_walk_in(i, j, k, fun_dict, r, s, wC, wH, p, total_states)
 
     # return the optimal expected revenue for the given amount of patients
-    if offline:
-        return fun_dict[1, m_init-1, 1]
-    else:
-        return fun_dict[1, m_init-1, 1]
+    return fun_dict[1, m_init-1, 1]
 
 
 # returns the value of the optimal value function
-# for the problem where we can schedule patients
+# for the problem where we can schedule patients (online)
 def opt_val_fun_scheduling(t, m, n, dicti, r, s, wC, wH, p, total_states):
 
     """
@@ -430,6 +431,8 @@ def opt_val_fun_walk_in(t, m, n, dicti, r, s, wC, wH, p, total_states):
                 return r - (n - 1) * wC + p * sum_emergency + (1 - p) * sum_no_emergency
 
 
+# returns the value of the optimal value function
+# for the problem where we have a clinic that uses offline scheduling
 def opt_val_fun_offline(t, m, n, dicti, r, s, wC, wH, p, total_states, calllist, neededm):
 
     """
@@ -519,30 +522,42 @@ def opt_val_fun_offline(t, m, n, dicti, r, s, wC, wH, p, total_states, calllist,
 
 # constants and function calls are here
 
-# edit constants here
+# EDIT CONSTANTS HERE
 r = 10
 s = 12
-wC = 5
-wH = 0.1
+wC = 0
+wH = 0
 p = 0.3
-# edit constants here
+# EDIT CONSTANTS HERE
 
-# structure of input: (no. time slots, scheduling(True/False), constants)
-# for example: print(find_no_patients(35, True, r, s, wC, wH, p, False, []))
+# BELOW, ONE CAN UNCOMMENT A FUNCTION CALL TO OBTAIN A CERTAIN RESULT
 
-# we now call the function twice, once to find the optimal profit when we schedule our
-# patients by time slot, and once to find the optimal profit for a walk-in clinic.
-# We print the results and the optimal number of patients we should have that day (i.e. how
-# many patients we tell beforehand that they can come on that particular day)
-tempresult = []
-for i in range(1, 33):
-    tempresult.append((i, makeschedule(32, i, r, s, wC, wH, p)))
 
-open('resultsbonus.obj', 'w+').close()
-filehand = open('resultsbonus.obj', 'wb')
-pickle.dump(tempresult, filehand)
+# # UNCOMMENT THESE LINES (536-545): A vector is created which calculates schedules
+# # which are correspond to a locally optimal profit. They are then added to a vector and returned
+# # in the form of an .obj file, which can again be read in Python
+# tempresult = []
+# for i in range(1, 33):
+#     tempresult.append((i, makeschedule(32, i, r, s, wC, wH, p)))
+#
+# open('resultsbonus.obj', 'w+').close()
+# filehand = open('resultsbonus.obj', 'wb')
+# pickle.dump(tempresult, filehand)
 
-#print(find_no_patients(35, True, r, s, wC, wH, p, False, []))
-#print(find_no_patients(35, False, r, s, wC, wH, p, False, []))
-# print(find_no_patients(35, False, r, s, wC, wH, p, True, listerinator2000))
+
+# # UNCOMMENT THESE LINES (548 - 550): A clinic with online scheduling is simulated. The output
+# # is a tuple with the optimal number of patients and the expected proceeds
+# print(find_no_patients(35, True, r, s, wC, wH, p, False, []))
+
+
+# # UNCOMMENT THESE LINES (553 - 555): A walk-in clinic is simulated. The output is a tuple with the
+# # optimal number of patients and the expected proceeds
+# print(find_no_patients(35, False, r, s, wC, wH, p, False, []))
+
+# # UNCOMMENT THESE LINES (557 - 562): A locally optimal schedule is created for the situation where
+# # 20 patients need to be treated. We first generate the schedule and then compute the proceeds. The
+# # output is a tuple with the first element being the number of patients and the second being the
+# # expected proceeds
+# newschedule = makeschedule(32, 20, r, s, wC, wH, p)[0]
+# print(find_no_patients(35, False, r, s, wC, wH, p, True, newschedule))
 
