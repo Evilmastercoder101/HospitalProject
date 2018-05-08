@@ -4,6 +4,47 @@ import random
 # EDIT CONSTANTS ON LAST LINES OF THE CODE
 
 
+# HEEELLLLPPPPPPP
+def makeschedule(n, x, r, s, wC, wH, p):
+
+    schedulemade = [0]*n
+
+    schedulemade[0] = 1
+    opt_schedule_current = []
+
+    print(schedulemade)
+    print(schedule(35, 1, False, r, s, wC, wH, p, True, schedulemade))
+
+    for k in range(1, x+1):
+
+        bestprofit = 0
+
+        for i in range(1, len(schedulemade)):
+
+            if schedulemade[i] == 0:
+
+                schedulemade[i] = 1
+
+            print(schedulemade)
+
+            newprofit = schedule(35, k, False, r, s, wC, wH, p, True, schedulemade)
+
+            print(newprofit)
+
+            if newprofit != None and newprofit > bestprofit:
+
+                bestprofit = newprofit
+                opt_schedule_current = schedulemade
+
+            schedulemade[i] = 0
+
+        schedulemade = opt_schedule_current
+
+    return schedulemade
+
+
+
+
 # calculates the best number of patients to schedule for a given day
 def find_no_patients(ttot, scheduling, r, s, wC, wH, p, offline, calllist):
 
@@ -62,7 +103,6 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p, offline, calllist):
     total_states = m_init+ttot
     if offline:
         neededm = 0
-        print(calllist)
 
     # we loop over all time slots backwards (from 35 to 1)
     for i in range(ttot, 0, -1):
@@ -71,10 +111,11 @@ def schedule(ttot, m_init, scheduling, r, s, wC, wH, p, offline, calllist):
         # at any given time. For example, if we want to have one patient in the clinic in some time slot,
         # we want at least 1 patient at home in the previous time interval. We can calculate backwards to find the
         # needed amount of patients at home for any time slot
+
         if offline and i <= 31 and calllist[i] == 1:
+
             # if call_list[t+1]
             neededm += 1
-            print(neededm)
 
         # we loop over all possible values for the amount of patients sitting at home
         for j in range(0, m_init+1):
@@ -441,9 +482,11 @@ for i in range(0, 32):
     if i == 0:
         listerinator2000.append(1)
     else:
-        listerinator2000.append(random.randint(0, 1))
+        listerinator2000.append(0)
+
+print(makeschedule(32, 5, r, s, wC, wH, p))
 
 #print(find_no_patients(35, True, r, s, wC, wH, p, False, []))
 #print(find_no_patients(35, False, r, s, wC, wH, p, False, []))
-print(find_no_patients(35, False, r, s, wC, wH, p, True, listerinator2000))
+# print(find_no_patients(35, False, r, s, wC, wH, p, True, listerinator2000))
 
